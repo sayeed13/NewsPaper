@@ -51,6 +51,10 @@ function data() {
     toggleCategoryMenu() {
       this.isCategoryMenuOpen = !this.isCategoryMenuOpen
     },
+    isDistrictMenuOpen: false,
+    toggleDistrictMenu() {
+      this.isDistrictMenuOpen = !this.isDistrictMenuOpen
+    },
   
     // Modal
     isModalOpen: false,
