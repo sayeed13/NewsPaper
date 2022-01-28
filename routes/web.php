@@ -5,6 +5,7 @@ use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\DistrictController;
 use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Backend\SubDistrictController;
+use App\Http\Controllers\Backend\PostController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -64,3 +65,8 @@ Route::post('/store/subdistrict', [SubDistrictController::class, 'storeSubDistri
 Route::get('/edit/subdistrict/{id}', [SubDistrictController::class, 'editSubDistrict'])->name('edit.subdistrict');
 Route::post('/update/subdistrict/{id}', [SubDistrictController::class, 'updateSubDistrict'])->name('update.subdistrict');
 Route::get('/delete/subdistrict/{id}', [SubDistrictController::class, 'deleteSubDistrict'])->name('delete.subdistrict');
+
+
+//Admin Posts All Routes
+Route::resource('posts', PostController::class);
+//Route::get('/posts', [PostController::class, 'index'])->name('posts');
