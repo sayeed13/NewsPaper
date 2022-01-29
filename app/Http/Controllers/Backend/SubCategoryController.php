@@ -31,8 +31,9 @@ class SubCategoryController extends Controller
 
     public function storeSubCategory(Request $request)
     {
+
         $request->validate([
-            'name' => 'required|max:255',
+            'name' => 'required',
         ]);
 
         $subcategory = new SubCategory();
@@ -68,6 +69,6 @@ class SubCategoryController extends Controller
         $subcategory = SubCategory::findOrFail($id);
         $subcategory->delete();
 
-        return Redirect()->route('subcategories')->with('message', 'Your Sub-Category has been Updated successfully!');
+        return Redirect()->route('subcategories')->with('message', 'Your Sub-Category has been Deleted successfully!');
     }
 }

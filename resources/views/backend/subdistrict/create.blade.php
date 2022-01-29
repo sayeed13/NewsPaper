@@ -24,7 +24,7 @@
         <span class="text-gray-700 dark:text-gray-400">
             Add Sub-District
         </span>
-        <form action="{{ route('store.subcategory') }}" method="POST">
+        <form action="{{ route('store.subdistrict') }}" method="POST">
             @csrf
             <label class="block text-sm">
                 <span class="text-gray-700 dark:text-gray-400">Sub District Name</span>

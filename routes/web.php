@@ -61,7 +61,7 @@ Route::get('/delete/district/{id}', [DistrictController::class, 'deleteDistrict'
 //Admin Subdistrict All Routes
 Route::get('/subdistrict', [SubDistrictController::class, 'index'])->name('subdistrict');
 Route::get('/add/subdistrict', [SubDistrictController::class, 'addSubDistrict'])->name('add.subdistrict');
-Route::post('/store/subdistrict', [SubDistrictController::class, 'storeSubDistrict'])->name('store.subcategory');
+Route::post('/store/subdistrict', [SubDistrictController::class, 'storeSubDistrict'])->name('store.subdistrict');
 Route::get('/edit/subdistrict/{id}', [SubDistrictController::class, 'editSubDistrict'])->name('edit.subdistrict');
 Route::post('/update/subdistrict/{id}', [SubDistrictController::class, 'updateSubDistrict'])->name('update.subdistrict');
 Route::get('/delete/subdistrict/{id}', [SubDistrictController::class, 'deleteSubDistrict'])->name('delete.subdistrict');

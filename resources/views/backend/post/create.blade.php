@@ -30,7 +30,7 @@
                 <span for="title" class="text-gray-700 dark:text-gray-400">Post Title</span>
                 <input
                     class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                    name="title" type="text" placeholder="Your Post Title">
+                    name="title" id="title" type="text" placeholder="Your Post Title">
             </label>
             @error('title')
             <div class="alert alert-danger">{{ $message }}</div>
@@ -46,7 +46,9 @@
                             class="w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
                             required name="category_id">
                             <option selected>Select</option>
-                            <option>Category Name</option>
+                            @foreach ($category as $cat)
+                            <option value="{{ $cat->id }}">{{ $cat->cat_name }}</option>
+                            @endforeach
                         </select>
                     </label>
                 </div>
@@ -57,7 +59,7 @@
                         </span>
                         <select
                             class="w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
-                            required name="category_id">
+                            required name="subcategory_id">
                             <option selected>Select</option>
                             <option>Category Name</option>
                         </select>
@@ -70,9 +72,11 @@
                         </span>
                         <select
                             class="w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
-                            required name="category_id">
+                            required name="district_id">
                             <option selected>Select</option>
-                            <option>Category Name</option>
+                            @foreach ($district as $dis)
+                            <option value="{{ $dis->id }}">{{ $dis->district_name }}</option>
+                            @endforeach
                         </select>
                     </label>
                 </div>
@@ -83,7 +87,7 @@
                         </span>
                         <select
                             class="w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
-                            required name="category_id">
+                            required name="subdistrict_id">
                             <option selected>Select</option>
                             <option>Category Name</option>
                         </select>
@@ -92,20 +96,67 @@
             </div>
 
 
-
             <label class="block mt-4 text-sm">
                 <span class="text-gray-700 dark:text-gray-400">Description</span>
                 <textarea
                     class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
-                    rows="5" placeholder="Enter some long form content."></textarea>
+                    rows="5" placeholder="Enter some long form content." name="description"></textarea>
             </label>
 
             <label class="block mt-4 text-sm">
                 <span class="text-gray-700 dark:text-gray-400">Tags</span>
-                <textarea
+                <input
                     class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
-                    rows="2" placeholder="Enter some tag form content."></textarea>
+                    placeholder="Enter some tag form content." name="tags">
             </label>
+
+            <label class="inline-block mb-2 mt-2 text-gray-500" for="feature_image">Upload
+                Featured Image(jpg,png,svg,jpeg)</label>
+            <div class="flex items-center justify-center w-full" style="height: 150px; background: #fff;
+                border: 1px solid gray;">
+                <label class="flex flex-col w-full">
+                    <div class="flex flex-col items-center justify-center pt-7">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="w-12 h-12 text-gray-400 group-hover:text-gray-600" viewBox="0 0 20 20"
+                            fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        <p class="pt-1 text-sm tracking-wider text-gray-400 group-hover:text-gray-600">
+                            Select a photo</p>
+                    </div>
+                    <input type="file" name="feature_image" id="feature_image" class="opacity-0" />
+                </label>
+            </div>
+
+            <br>
+            <h3 class="text-center text-white">Extra Options</h3>
+            <br>
+
+            <div class="flex justify-between mt-6 text-sm">
+                <label class="flex items-center dark:text-gray-400">
+                    <input type="checkbox" name="headline"
+                        class="text-purple-600 form-checkbox focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+                    <span class="ml-2">
+                        Headline
+                    </span>
+                </label>
+                <label class="flex items-center dark:text-gray-400">
+                    <input type="checkbox" name="isfeatured"
+                        class="text-purple-600 form-checkbox focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+                    <span class="ml-2">
+                        Featured
+                    </span>
+                </label>
+                <label class="flex items-center dark:text-gray-400">
+                    <input type="checkbox" name="feature_thumbnail"
+                        class="text-purple-600 form-checkbox focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+                    <span class="ml-2">
+                        Thumbnail Style
+                    </span>
+                </label>
+            </div>
 
 
 
