@@ -67,6 +67,12 @@ Route::post('/update/subdistrict/{id}', [SubDistrictController::class, 'updateSu
 Route::get('/delete/subdistrict/{id}', [SubDistrictController::class, 'deleteSubDistrict'])->name('delete.subdistrict');
 
 
+//Ajax Category Filter Route
+Route::get('/get/subcategory/{category_id}', [PostController::class, 'filterSubCategory']);
+
+//Ajax District Filter Route
+Route::get('/get/subdistrict/{district_id}', [PostController::class, 'filterSubDistrict']);
+
 //Admin Posts All Routes
 Route::resource('posts', PostController::class);
 //Route::get('/posts', [PostController::class, 'index'])->name('posts');

@@ -1,6 +1,7 @@
 @extends('admin.admin_master')
 
 @section('index')
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <div class="container grid px-6 py-2 mx-auto">
     {{-- Section Heading --}}
     <div class="flex justify-between">
@@ -24,7 +25,7 @@
         <span class="text-gray-700 dark:text-gray-400">
             Add New Post
         </span>
-        <form action="{{ route('posts.store') }}" method="POST">
+        <form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <label class="block text-sm">
                 <span for="title" class="text-gray-700 dark:text-gray-400">Post Title</span>
@@ -44,8 +45,8 @@
                         </span>
                         <select
                             class="w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
-                            required name="category_id">
-                            <option selected>Select</option>
+                            required name="category_id" id="category_id">
+                            <option selected disabled value="0">Select</option>
                             @foreach ($category as $cat)
                             <option value="{{ $cat->id }}">{{ $cat->cat_name }}</option>
                             @endforeach
@@ -59,9 +60,8 @@
                         </span>
                         <select
                             class="w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
-                            required name="subcategory_id">
-                            <option selected>Select</option>
-                            <option>Category Name</option>
+                            required name="subcategory_id" id="subcategory_id">
+                            <option selected disabled value="0">Select</option>
                         </select>
                     </label>
                 </div>
@@ -72,8 +72,8 @@
                         </span>
                         <select
                             class="w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
-                            required name="district_id">
-                            <option selected>Select</option>
+                            required name="district_id" id="district_id">
+                            <option selected disabled value="0">Select</option>
                             @foreach ($district as $dis)
                             <option value="{{ $dis->id }}">{{ $dis->district_name }}</option>
                             @endforeach
@@ -87,9 +87,8 @@
                         </span>
                         <select
                             class="w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
-                            required name="subdistrict_id">
-                            <option selected>Select</option>
-                            <option>Category Name</option>
+                            required name="subdistrict_id" id="subdistrict_id">
+                            <option selected disabled value="0">Select</option>
                         </select>
                     </label>
                 </div>
@@ -136,21 +135,21 @@
 
             <div class="flex justify-between mt-6 text-sm">
                 <label class="flex items-center dark:text-gray-400">
-                    <input type="checkbox" name="headline"
+                    <input type="checkbox" name="headline" value="1"
                         class="text-purple-600 form-checkbox focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
                     <span class="ml-2">
                         Headline
                     </span>
                 </label>
                 <label class="flex items-center dark:text-gray-400">
-                    <input type="checkbox" name="isfeatured"
+                    <input type="checkbox" name="isfeatured" value="1"
                         class="text-purple-600 form-checkbox focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
                     <span class="ml-2">
                         Featured
                     </span>
                 </label>
                 <label class="flex items-center dark:text-gray-400">
-                    <input type="checkbox" name="feature_thumbnail"
+                    <input type="checkbox" name="feature_thumbnail" value="1"
                         class="text-purple-600 form-checkbox focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
                     <span class="ml-2">
                         Thumbnail Style
@@ -176,4 +175,54 @@
 
 
 </div>
+
+
+{{-- Filter Ajax Category--}}
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('select[name ="category_id"]').on('change', function() {
+            var category_id =$(this).val();
+            if(category_id) {
+                $.ajax({
+                    url: "{{ url('/get/subcategory/') }}/"+category_id,
+                    type: "GET",
+                    dataType: "json",
+                    success:function(data) {
+                        $("#subcategory_id").empty();
+                        $.each(data, function(key,value){
+                            $("#subcategory_id").append('<option value="'+value.id+'">'+value.name+'</option>')
+                        });
+                    },
+                }); 
+            } else{
+                alart('danger');
+            }
+        });
+    });
+</script>
+
+{{-- Filter Ajax District --}}
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('select[name ="district_id"]').on('change', function() {
+            var district_id =$(this).val();
+            if(district_id) {
+                $.ajax({
+                    url: "{{ url('/get/subdistrict/') }}/"+district_id,
+                    type: "GET",
+                    dataType: "json",
+                    success:function(data) {
+                        $("#subdistrict_id").empty();
+                        $.each(data, function(key,value){
+                            $("#subdistrict_id").append('<option value="'+value.id+'">'+value.subdistrict_name+'</option>')
+                        });
+                    },
+                }); 
+            } else{
+                alart('danger');
+            }
+        });
+    });
+</script>
+
 @endsection

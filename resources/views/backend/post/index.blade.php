@@ -30,35 +30,41 @@
                         <th class="px-4 py-3">Id</th>
                         <th class="px-4 py-3">Post Title</th>
                         <th class="px-4 py-3">Category</th>
+                        <th class="px-4 py-3">District</th>
                         <th class="px-4 py-3">Date</th>
                         <th class="px-4 py-3">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
 
+                    @php( $i = 1)
+                    @foreach ($posts as $post)
+
                     <tr class="text-gray-700 dark:text-gray-400">
                         <td class="px-4 py-3 text-sm">
-                            1
+                            {{ $i++ }}
                         </td>
                         <td class="px-4 py-3">
                             <div class="flex items-center text-sm">
                                 <!-- Avatar with inset shadow -->
                                 <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
-                                    <img class="object-cover w-full h-full rounded-full"
-                                        src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=200&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
-                                        alt="" loading="lazy">
+                                    <img class="object-contain w-full h-full rounded-full"
+                                        src="{{ url('/storage/image/'.$post->feature_image) }}" alt="" loading="lazy">
                                     <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
                                 </div>
                                 <div>
-                                    <p class="font-semibold">Post Title</p>
+                                    <p class="font-semibold">{{ $post->title }}</p>
                                 </div>
                             </div>
                         </td>
                         <td class="px-4 py-3 text-sm">
-                            Category Name
+                            {{ $post->cat_name }}
                         </td>
                         <td class="px-4 py-3 text-sm">
-                            6/10/2020
+                            {{ $post->district_name }}
+                        </td>
+                        <td class="px-4 py-3 text-sm">
+                            {{ $post->created_at->format('d/m/Y') }}
                         </td>
                         <td class="px-4 py-3">
                             <div class="flex items-center space-x-4 text-sm">
@@ -83,6 +89,7 @@
                             </div>
                         </td>
                     </tr>
+                    @endforeach
 
 
                 </tbody>
