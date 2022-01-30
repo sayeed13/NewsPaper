@@ -90,6 +90,8 @@ class PostController extends Controller
         $post->isfeatured = $request->isfeatured;
         $post->feature_thumbnail = $request->feature_thumbnail;
 
+
+
         //Image Rename
         $image_rename = uniqid() . '-' . $request->feature_image->getClientOriginalName();
 
@@ -130,9 +132,21 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function edit(Post $post)
+    public function edit($id)
     {
-        //
+        $post = Post::findOrFail($id);
+        $category = Category::all();
+        $subcategory = SubCategory::where('category_id', $post->category_id)->get();
+        $district = District::all();
+        $subdistrict = Subdistrict::where('district_id', $post->district_id)->get();
+
+        return view('backend.post.edit', [
+            'post' => $post,
+            'category' => $category,
+            'subcategory' => $subcategory,
+            'district' => $district,
+            'subdistrict' => $subdistrict,
+        ]);
     }
 
     /**
@@ -142,9 +156,44 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(Request $request, $id)
     {
-        //
+        $post = Post::findOrFail($id);
+        $post->user_id = Auth::id();
+        $post->title = $request->title;
+        $post->category_id = $request->category_id;
+        $post->subcategory_id = $request->subcategory_id;
+        $post->district_id = $request->district_id;
+        $post->subdistrict_id = $request->subdistrict_id;
+        $post->description = $request->description;
+        $post->tags = $request->tags;
+        $post->headline = $request->headline;
+        $post->isfeatured = $request->isfeatured;
+        $post->feature_thumbnail = $request->feature_thumbnail;
+
+
+
+        //Image Rename
+        $image_rename = uniqid() . '-' . $request->feature_image->getClientOriginalName();
+
+        //Store File
+        $request->feature_image->storeAs('public/image', $image_rename);
+
+        // Use File
+        $post->feature_image = $image_rename;
+
+
+        // $image = $request->feature_image;
+        // if ($image) {
+        //     $image_rename = uniqid() . '.' . $image->getClientOriginalExtension();
+        //     Image::make($image)->resize(500, 300)->save('/image/postimg/' . $image_rename);
+        //     $post->feature_image = '/image/postimg/' . $image_rename;
+
+        // }
+
+        $post->update();
+
+        return Redirect()->back();
     }
 
     /**

@@ -23,15 +23,15 @@
     {{-- Add Category Form --}}
     <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
         <span class="text-gray-700 dark:text-gray-400">
-            Add New Post
+            Edit Post
         </span>
-        <form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('posts.update', $post->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             <label class="block text-sm">
                 <span for="title" class="text-gray-700 dark:text-gray-400">Post Title</span>
                 <input
                     class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                    name="title" id="title" type="text" placeholder="Your Post Title">
+                    name="title" id="title" type="text" value="{{ $post->title }}">
             </label>
             @error('title')
             <div class="alert alert-danger">{{ $message }}</div>
@@ -48,7 +48,8 @@
                             required name="category_id" id="category_id">
                             <option selected disabled value="0">Select</option>
                             @foreach ($category as $cat)
-                            <option value="{{ $cat->id }}">{{ $cat->cat_name }}</option>
+                            <option {{ $cat->id == $post->category_id ? 'selected="selected"' : '' }} value="{{ $cat->id
+                                }}">{{ $cat->cat_name }}</option>
                             @endforeach
                         </select>
                     </label>
@@ -62,6 +63,12 @@
                             class="w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
                             required name="subcategory_id" id="subcategory_id">
                             <option selected disabled value="0">Select</option>
+                            @foreach ($subcategory as $subcategory)
+                            <option {{ $subcategory->id == $post->subcategory_id ? 'selected="selected"' : '' }}
+                                value="{{
+                                $subcategory->id
+                                }}">{{ $subcategory->name }}</option>
+                            @endforeach
                         </select>
                     </label>
                 </div>
@@ -75,7 +82,8 @@
                             required name="district_id" id="district_id">
                             <option selected disabled value="0">Select</option>
                             @foreach ($district as $dis)
-                            <option value="{{ $dis->id }}">{{ $dis->district_name }}</option>
+                            <option {{ $dis->id == $post->district_id ? 'selected="selected"' : '' }} value="{{ $dis->id
+                                }}">{{ $dis->district_name }}</option>
                             @endforeach
                         </select>
                     </label>
@@ -89,6 +97,12 @@
                             class="w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
                             required name="subdistrict_id" id="subdistrict_id">
                             <option selected disabled value="0">Select</option>
+                            @foreach ($subdistrict as $subdistrict)
+                            <option {{ $subdistrict->id == $post->subdistrict_id ? 'selected="selected"' : '' }}
+                                value="{{
+                                $subdistrict->id
+                                }}">{{ $subdistrict->subdistrict_name }}</option>
+                            @endforeach
                         </select>
                     </label>
                 </div>
@@ -99,14 +113,14 @@
                 <span class="text-gray-700 dark:text-gray-400">Description</span>
                 <textarea
                     class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
-                    rows="5" placeholder="Enter some long form content." name="description"></textarea>
+                    rows="5" name="description">{{ $post->description }}</textarea>
             </label>
 
             <label class="block mt-4 text-sm">
                 <span class="text-gray-700 dark:text-gray-400">Tags</span>
                 <input
                     class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
-                    placeholder="Enter some tag form content." name="tags">
+                    value="{{ $post->tags }}" name="tags">
             </label>
 
             <div class="flex justify-center">
@@ -118,6 +132,10 @@
                     <input
                         class="form-control block w-full px-3 py-2 text-base font-normal dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0"
                         type="file" id="feature_image" name="feature_image">
+
+                    <img for="oldimg" style="width: 300px; height:auto" class="mt-4"
+                        src="{{ url('/storage/image/'. $post->feature_image) }}" alt="" />
+                    <input type="hidden" id="oldimg" name="oldimg" value="{{ $post->feature_image }}">
                 </div>
             </div>
 
@@ -127,22 +145,26 @@
 
             <div class="flex justify-between mt-6 text-sm">
                 <label class="flex items-center dark:text-gray-400">
-                    <input type="checkbox" name="headline" value="1"
-                        class="text-purple-600 form-checkbox focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+                    <input type="checkbox" name="headline" value="1" {{ $post->headline==1 ? 'checked' : '' }}
+                    class="text-purple-600 form-checkbox focus:border-purple-400 focus:outline-none
+                    focus:shadow-outline-purple dark:focus:shadow-outline-gray">
                     <span class="ml-2">
                         Headline
                     </span>
                 </label>
                 <label class="flex items-center dark:text-gray-400">
-                    <input type="checkbox" name="isfeatured" value="1"
-                        class="text-purple-600 form-checkbox focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+                    <input type="checkbox" name="isfeatured" value="1" {{ $post->isfeatured==1 ? 'checked' : '' }}
+                    class="text-purple-600 form-checkbox focus:border-purple-400 focus:outline-none
+                    focus:shadow-outline-purple dark:focus:shadow-outline-gray">
                     <span class="ml-2">
                         Featured
                     </span>
                 </label>
                 <label class="flex items-center dark:text-gray-400">
-                    <input type="checkbox" name="feature_thumbnail" value="1"
-                        class="text-purple-600 form-checkbox focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+                    <input type="checkbox" name="feature_thumbnail" value="1" {{ $post->feature_thumbnail==1 ? 'checked'
+                    : '' }}
+                    class="text-purple-600 form-checkbox focus:border-purple-400 focus:outline-none
+                    focus:shadow-outline-purple dark:focus:shadow-outline-gray">
                     <span class="ml-2">
                         Thumbnail Style
                     </span>
@@ -156,7 +178,7 @@
                 <a href="">
                     <button type="submit"
                         class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple mt-3">
-                        Publish
+                        Update
                     </button>
                 </a>
             </div>
