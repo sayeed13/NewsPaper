@@ -80,5 +80,9 @@ Route::post('/posts/{id}/update', [PostController::class, 'updatePost'])->name('
 
 
 //Social Links Routes
-Route::get('social', [SettingController::class, 'index'])->name('social');
+Route::get('social', [SettingController::class, 'socialindex'])->name('social');
 Route::post('/social/update/{id}', [SettingController::class, 'updateSocial'])->name('update.social');
+
+//SEO Routes
+Route::get('seo', [SettingController::class, 'seoindex'])->name('seo');
+Route::post('/seo/update/{id}', [SettingController::class, 'updateSeo'])->name('update.seo');
