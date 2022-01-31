@@ -59,6 +59,10 @@ function data() {
     toggleSettingMenu() {
       this.isSettingMenuOpen = !this.isSettingMenuOpen
     },
+    isGalleryMenuOpen: false,
+    toggleGalleryMenu() {
+      this.isGalleryMenuOpen = !this.isGalleryMenuOpen
+    },
   
     // Modal
     isModalOpen: false,

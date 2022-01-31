@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\DistrictController;
+use App\Http\Controllers\Backend\GalleryController;
 use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Backend\SubDistrictController;
 use App\Http\Controllers\Backend\PostController;
@@ -75,14 +76,20 @@ Route::get('/get/subcategory/{category_id}', [PostController::class, 'filterSubC
 Route::get('/get/subdistrict/{district_id}', [PostController::class, 'filterSubDistrict']);
 
 //Admin Posts All Routes
-Route::resource('posts', PostController::class);
+Route::resource('/posts', PostController::class);
 Route::post('/posts/{id}/update', [PostController::class, 'updatePost'])->name('update.posts');
 
 
 //Social Links Routes
-Route::get('social', [SettingController::class, 'socialindex'])->name('social');
+Route::get('/social', [SettingController::class, 'socialindex'])->name('social');
 Route::post('/social/update/{id}', [SettingController::class, 'updateSocial'])->name('update.social');
 
 //SEO Routes
-Route::get('seo', [SettingController::class, 'seoindex'])->name('seo');
+Route::get('/seo', [SettingController::class, 'seoindex'])->name('seo');
 Route::post('/seo/update/{id}', [SettingController::class, 'updateSeo'])->name('update.seo');
+
+//Gallery Routes
+Route::get('/photos', [GalleryController::class, 'PhotoGallery'])->name('gallery.photo');
+Route::get('/add/photos/', [GalleryController::class, 'addPhotoGallery'])->name('add.photo');
+Route::post('/store/photos/', [GalleryController::class, 'storePhotoGallery'])->name('store.photo');
+Route::get('/delete/photos/{id}', [GalleryController::class, 'deletePhotoGallery'])->name('delete.photo');
