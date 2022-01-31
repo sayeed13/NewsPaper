@@ -25,7 +25,7 @@
         <span class="text-gray-700 dark:text-gray-400">
             Edit Post
         </span>
-        <form action="{{ route('posts.update', $post->id) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('update.posts', $post->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             <label class="block text-sm">
                 <span for="title" class="text-gray-700 dark:text-gray-400">Post Title</span>
@@ -135,7 +135,7 @@
 
                     <img for="oldimg" style="width: 300px; height:auto" class="mt-4"
                         src="{{ url('/storage/image/'. $post->feature_image) }}" alt="" />
-                    <input type="hidden" id="oldimg" name="oldimg" value="{{ $post->feature_image }}">
+                    {{-- <input type="hidden" id="oldimg" name="oldimg" value="{{ $post->feature_image }}"> --}}
                 </div>
             </div>
 

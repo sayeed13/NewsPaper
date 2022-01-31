@@ -158,6 +158,25 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Post  $post
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $post = Post::findOrFail($id);
+
+        $post->delete();
+        return Redirect()->route('posts.index');
+    }
+
+
+    public function updatePost(Request $request, $id)
+    {
         $post = Post::findOrFail($id);
         $post->user_id = Auth::id();
         $post->title = $request->title;
@@ -174,36 +193,19 @@ class PostController extends Controller
 
 
         //Image Rename
-        $image_rename = uniqid() . '-' . $request->feature_image->getClientOriginalName();
+        if ($request->hasFile('feature_image')) {
+            $image_rename = uniqid() . '-' . $request->feature_image->getClientOriginalName();
 
-        //Store File
-        $request->feature_image->storeAs('public/image', $image_rename);
+            //Store File
+            $request->feature_image->storeAs('public/image', $image_rename);
 
-        // Use File
-        $post->feature_image = $image_rename;
+            // Use File
+            $post->feature_image = $image_rename;
+        }
 
 
-        // $image = $request->feature_image;
-        // if ($image) {
-        //     $image_rename = uniqid() . '.' . $image->getClientOriginalExtension();
-        //     Image::make($image)->resize(500, 300)->save('/image/postimg/' . $image_rename);
-        //     $post->feature_image = '/image/postimg/' . $image_rename;
-
-        // }
-
-        $post->update();
+        $post->save();
 
         return Redirect()->back();
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Post  $post
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Post $post)
-    {
-        //
     }
 }

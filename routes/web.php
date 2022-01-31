@@ -75,4 +75,4 @@ Route::get('/get/subdistrict/{district_id}', [PostController::class, 'filterSubD
 
 //Admin Posts All Routes
 Route::resource('posts', PostController::class);
-//Route::get('/posts', [PostController::class, 'index'])->name('posts');
+Route::post('/posts/{id}/update', [PostController::class, 'updatePost'])->name('update.posts');
