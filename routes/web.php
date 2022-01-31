@@ -6,6 +6,7 @@ use App\Http\Controllers\Backend\DistrictController;
 use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Backend\SubDistrictController;
 use App\Http\Controllers\Backend\PostController;
+use App\Http\Controllers\Backend\SettingController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -76,3 +77,8 @@ Route::get('/get/subdistrict/{district_id}', [PostController::class, 'filterSubD
 //Admin Posts All Routes
 Route::resource('posts', PostController::class);
 Route::post('/posts/{id}/update', [PostController::class, 'updatePost'])->name('update.posts');
+
+
+//Social Links Routes
+Route::get('social', [SettingController::class, 'index'])->name('social');
+Route::post('/social/update/{id}', [SettingController::class, 'updateSocial'])->name('update.social');

@@ -55,6 +55,10 @@ function data() {
     toggleDistrictMenu() {
       this.isDistrictMenuOpen = !this.isDistrictMenuOpen
     },
+    isSettingMenuOpen: false,
+    toggleSettingMenu() {
+      this.isSettingMenuOpen = !this.isSettingMenuOpen
+    },
   
     // Modal
     isModalOpen: false,
